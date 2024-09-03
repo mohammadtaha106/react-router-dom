@@ -1,6 +1,48 @@
 import React from 'react';
+import { useState } from 'react';
+import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from '../../utils/firebase';
+
+
 
 function SignIn() {
+
+  const [email,setEmail] = useState('')
+  const [password,setPassword] = useState('')
+
+ const handlesigninwithgoogle =()=> {
+
+  const provider = new GoogleAuthProvider()
+  provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+
+  signInWithPopup(auth, provider)
+  .then((result) => {
+    // This gives you a Google Access Token. You can use it to access the Google API.
+    console.log("result=>",result);
+    
+    const credential = GoogleAuthProvider.credentialFromResult(result);
+    const token = credential.accessToken;
+    // The signed-in user info.
+    const user = result.user;
+    console.log("user=>",user);
+    
+    // IdP data available using getAdditionalUserInfo(result)
+    // ...
+  }).catch((error) => {
+    // Handle Errors here.
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    console.log("error=>",errorCode,errorMessage);
+    
+    // The email of the user's account used.
+    const email = error.customData.email;
+    // The AuthCredential type that was used.
+    const credential = GoogleAuthProvider.credentialFromError(error);
+    // ...
+  });
+
+ }
+
   return (
     <>
       <section className="bg-white">
@@ -24,6 +66,10 @@ function SignIn() {
                     Your email
                   </label>
                   <input
+
+                  onChange={(e)=>setEmail(e.target.value)}
+
+                  value={email}
                     type="email"
                     name="email"
                     id="email"
@@ -40,6 +86,10 @@ function SignIn() {
                     Password
                   </label>
                   <input
+
+                  onChange={(e)=> setPassword(e.target.value)}
+
+                  value={password}
                     type="password"
                     name="password"
                     id="password"
@@ -54,6 +104,24 @@ function SignIn() {
                 >
                   Sign In
                 </button>
+                <button
+  type="button"
+  class="flex items-center justify-center w-full p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
+  onClick={handlesigninwithgoogle}
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="20"
+    height="20"
+    fill="currentColor"
+    class="mr-2"
+    viewBox="0 0 16 16"
+  >
+    <path d="M8 0c1.578 0 2.866.488 3.81 1.32L9.623 4.508C9.145 4.187 8.636 4.064 8 4.064c-1.676 0-3.042 1.136-3.542 2.664-.338.983-.157 1.919.52 2.652.67.721 1.574 1.058 2.61.979.839-.066 1.528-.341 2.11-.827.41-.347.693-.781.82-1.283H8.18V6.49H13.9c.1.624.152 1.276.152 1.936 0 1.609-.546 2.974-1.467 3.933C11.282 13.758 9.77 14.5 8 14.5c-2.594 0-4.644-1.74-5.418-4.064C2.134 8.796 2 8.404 2 8s.134-.796.582-2.436C3.356 3.24 5.406 1.5 8 1.5c1.176 0 2.207.366 3.005.977l2.433-2.364C12.63.358 10.393 0 8 0z" />
+  </svg>
+  Sign in with Google
+</button>
+
                 <p className="text-lg font-light text-gray-500">
                   Don't have an account?{' '}
                   <a
