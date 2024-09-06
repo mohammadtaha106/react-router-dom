@@ -2,6 +2,9 @@ import React from 'react';
 import { useState } from 'react';
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../utils/firebase';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -9,6 +12,16 @@ function SignIn() {
 
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
+
+  const navigate = useNavigate()
+  const notify = () => toast.success("Signed In Sucessfully",{position: "top-center",
+    autoClose: 2000,});
+    const handleredirect = (result)=>{
+      if (result.operationType === "signIn") {
+        navigate('/')
+      }
+     
+    }
 
  const handlesigninwithgoogle =()=> {
 
@@ -28,6 +41,9 @@ function SignIn() {
     
     // IdP data available using getAdditionalUserInfo(result)
     // ...
+    notify()
+
+    handleredirect(result)
   }).catch((error) => {
     // Handle Errors here.
     const errorCode = error.code;
@@ -107,7 +123,8 @@ function SignIn() {
                 <button
   type="button"
   class="flex items-center justify-center w-full p-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700"
-  onClick={handlesigninwithgoogle}
+  onClick={()=> {handlesigninwithgoogle()} }
+  
 >
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -121,6 +138,7 @@ function SignIn() {
   </svg>
   Sign in with Google
 </button>
+<ToastContainer />
 
                 <p className="text-lg font-light text-gray-500">
                   Don't have an account?{' '}
