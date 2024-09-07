@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { Avatar } from '@nextui-org/react';
 import AvatarDrop from './Avatardrop';
@@ -11,15 +11,21 @@ import 'react-toastify/dist/ReactToastify.css';
 const Navbar = () => {
   const {user , setuser} = useContext(AuthContext)
 
-  
-  const notify = () => toast.error("Log Out Sucessfully",{position: "top-center",
-    autoClose: 2000,});
+  const navigate = useNavigate()
 
   const handleLogOut =()=>{
     signOut(auth).then(() => {
  console.log("sign out successfully");
- notify()
- 
+
+ toast.error("Log Out Sucessfully",{position: "top-center",
+  autoClose: 2000,});
+
+ setTimeout(() => {
+  
+  navigate('auth/signin')
+ }, 2000);
+
+
     }).catch((error) => {
       console.log(error);
       
@@ -32,6 +38,8 @@ const Navbar = () => {
 // console.log(userInfo?.displayName);
 
   return (
+    <>
+     <ToastContainer />
     <nav className="flex justify-between items-center px-10 py-5 bg-purple-700 shadow-md">
       <div className="text-3xl font-extrabold text-white">
         <span style={{ fontFamily: 'Cursive, sans-serif' }}>&lt;MUSA /&gt;</span>
@@ -49,8 +57,11 @@ const Navbar = () => {
 
     
       </div>
+    
       
     </nav>
+   
+    </>
   );
 };
 
