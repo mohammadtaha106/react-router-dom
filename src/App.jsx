@@ -25,11 +25,10 @@ function App() {
       <Route path='/' element={<Home/>}/>
       <Route path='/about' element={<AboutUs/>}/>
       <Route path='/contact' element={<ContactUs/>}/>
-      <Route path='/auth'>
-      <Route  index element={<Auth/>}/>
-      <Route  path='signup' element={<SignUp/>}/>
-      <Route  path='signin' element={<SignIn/>}/>
-      </Route>
+      <Route path='/auth'element={<Auth/>}/>
+      <Route  path='/signup' element={<SignUp/>}/>
+      <Route  path='/signin' element={<SignIn/>}/>
+      
       <Route   path='*' element={<NotFound/>}/>
 
     </Routes>

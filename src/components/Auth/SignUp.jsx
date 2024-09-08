@@ -1,6 +1,39 @@
-import React from 'react';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from 'react';
+import { auth } from '../../utils/firebase';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function SignUp() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const navigate = useNavigate()
+
+
+  const handleoncreateacc = async (e)=>{
+    e.preventDefault();
+    try {
+      await createUserWithEmailAndPassword(auth, email, password)
+ 
+
+      toast.success('Account created successfully! Please sign in.', {
+        position: 'top-center',
+        autoClose: 2000,
+      });
+
+    
+      setTimeout(() => {
+        toast.dismiss()
+        navigate('/signin');  
+      }, 2000);
+
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
   return (
     <>
       <section className="bg-white">
@@ -24,12 +57,15 @@ function SignUp() {
                     Your email
                   </label>
                   <input
+
                     type="email"
                     name="email"
                     id="email"
                     className="bg-gray-50 border border-gray-300 text-purple-900 text rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
                     placeholder="name@company.com"
                     required=""
+                    value={email}
+                    onChange={(e)=>setEmail(e.target.value)}
                   />
                 </div>
                 <div>
@@ -46,6 +82,8 @@ function SignUp() {
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 text-lg rounded-lg focus:ring-purple-500 focus:border-purple-500 block w-full p-2.5"
                     required=""
+                    value={password}
+                    onChange={(e)=>setPassword(e.target.value)}
                   />
                 </div>
                 <div>
@@ -90,11 +128,13 @@ function SignUp() {
                   </div>
                 </div>
                 <button
+                onClick={handleoncreateacc}
                   type="submit"
                   className="w-full text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center"
                 >
                   Create an account
                 </button>
+                <ToastContainer />
                 <p className="text-lg font-light text-gray-500">
                   Already have an account?{' '}
                   <a

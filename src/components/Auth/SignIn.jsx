@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { GoogleAuthProvider, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth } from '../../utils/firebase';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,6 +14,31 @@ function SignIn() {
   const [email,setEmail] = useState('')
   const [password,setPassword] = useState('')
 
+
+ const handleonsignin =(e)=>{
+  e.preventDefault();
+  signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed in 
+    const user = userCredential.user;
+    console.log(user);
+    toast.success('Signed In sucessfully.', {
+      position: 'top-center',
+      autoClose: 2000,
+    });
+
+  
+    setTimeout(() => {
+      toast.dismiss()
+      navigate('/');  
+    }, 2000);
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });
+ }
   const navigate = useNavigate()
   const notify = () => toast.success("Signed In Sucessfully",{position: "top-center",
     autoClose: 2000,
@@ -30,6 +55,18 @@ function SignIn() {
   const provider = new GoogleAuthProvider()
   provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
 
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/auth.user
+      const uid = user.uid;
+      // ...
+    } else {
+      // User is signed out
+      // ...
+    }
+  });
   signInWithPopup(auth, provider)
   .then((result) => {
     // This gives you a Google Access Token. You can use it to access the Google API.
@@ -124,8 +161,9 @@ function SignIn() {
                   />
                 </div>
                 <button
+                
                   type="submit"
-                  className="w-full text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center"
+                  className="w-full text-white bg-purple-600 hover:bg-purple-700 focus:ring-4 focus:outline-none focus:ring-purple-300 font-medium rounded-lg text-lg px-5 py-2.5 text-center" onClick={handleonsignin}
                 >
                   Sign In
                 </button>
@@ -135,16 +173,17 @@ function SignIn() {
   onClick={()=> {handlesigninwithgoogle()} }
   
 >
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="20"
-    height="20"
-    fill="currentColor"
-    className="mr-2"
-    viewBox="0 0 16 16"
-  >
-    <path d="M8 0c1.578 0 2.866.488 3.81 1.32L9.623 4.508C9.145 4.187 8.636 4.064 8 4.064c-1.676 0-3.042 1.136-3.542 2.664-.338.983-.157 1.919.52 2.652.67.721 1.574 1.058 2.61.979.839-.066 1.528-.341 2.11-.827.41-.347.693-.781.82-1.283H8.18V6.49H13.9c.1.624.152 1.276.152 1.936 0 1.609-.546 2.974-1.467 3.933C11.282 13.758 9.77 14.5 8 14.5c-2.594 0-4.644-1.74-5.418-4.064C2.134 8.796 2 8.404 2 8s.134-.796.582-2.436C3.356 3.24 5.406 1.5 8 1.5c1.176 0 2.207.366 3.005.977l2.433-2.364C12.63.358 10.393 0 8 0z" />
-  </svg>
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="20"
+  height="20"
+  fill="currentColor"
+  className="mr-2"
+  viewBox="0 0 16 16"
+>
+  <path d="M8 0c1.578 0 2.866.488 3.81 1.32L9.623 4.508C9.145 4.187 8.636 4.064 8 4.064c-1.676 0-3.042 1.136-3.542 2.664-.338.983-.157 1.919.52 2.652.67.721 1.574 1.058 2.61.979.839-.066 1.528-.341 2.11-.827.41-.347.693-.781.82-1.283H8.18V6.49H13.9c.1.624.152 1.276.152 1.936 0 1.609-.546 2.974-1.467 3.933C11.282 13.758 9.77 14.5 8 14.5c-2.594 0-4.644-1.74-5.418-4.064C2.134 8.796 2 8.404 2 8s.134-.796.582-2.436C3.356 3.24 5.406 1.5 8 1.5c1.176 0 2.207.366 3.005.977l2.433-2.364C12.63.358 10.393 0 8 0z" />
+</svg>
+
   Sign in with Google
 </button>
 <ToastContainer />

@@ -22,7 +22,7 @@ const Navbar = () => {
 
  setTimeout(() => {
   
-  navigate('auth/signin')
+  navigate('/signin')
  }, 2000);
 
 
@@ -50,7 +50,7 @@ const Navbar = () => {
         < Link to="about" className="text-white hover:text-purple-300 transition duration-300">About Us</Link>
         < Link to="contact" className="text-white hover:text-purple-300 transition duration-300">Contact Us</Link>
         {
-          user?.isLogin ? <AvatarDrop onclick={handleLogOut} img={user?.userInfo?.photourl} name ={user?.userInfo?.name} email ={user?.userInfo?.email} /> : ( < Link to="/auth/signin" className="text-white hover:text-purple-300 transition duration-300">Sign In</Link>)
+          user?.isLogin ? <AvatarDrop onclick={handleLogOut} img={user?.userInfo?.photourl} name ={user?.userInfo?.name} email ={user?.userInfo?.email} /> : ( < Link to="/signin" className="text-white hover:text-purple-300 transition duration-300">Sign In</Link>)
          
                  }
                  
