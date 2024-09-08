@@ -2,16 +2,20 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import Auth from './components/Auth/Auth'
+
+
+import Auth from './pages/Auth/Auth'
 import Navbar from './components/Navbar'
 
-import SignUp from './components/Auth/SignUp'
-import SignIn from './components/Auth/SignIn'
-import AboutUs from './components/AboutUs'
-import ContactUs from './components/ContactUs'
-import Home from './components/Home'
+import SignUp from './pages/Auth/SignUp'
+import SignIn from './pages/Auth/SignIn'
+import AboutUs from './pages/AboutUs'
+import ContactUs from './pages/ContactUs'
+import Home from './pages/Home'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import NotFound from './components/NotFound'
+import NotFound from './pages/NotFound'
+import Product from './pages/Product'
+import Cart from './pages/Cart'
 
 function App() {
   
@@ -23,6 +27,8 @@ function App() {
     <Routes>
 
       <Route path='/' element={<Home/>}/>
+      <Route path='/product' element={<Product/>}/>
+      
       <Route path='/about' element={<AboutUs/>}/>
       <Route path='/contact' element={<ContactUs/>}/>
       <Route path='/auth'element={<Auth/>}/>
@@ -30,6 +36,7 @@ function App() {
       <Route  path='/signin' element={<SignIn/>}/>
       
       <Route   path='*' element={<NotFound/>}/>
+      <Route path='/cart' element={<Cart/>}></Route>
 
     </Routes>
     
