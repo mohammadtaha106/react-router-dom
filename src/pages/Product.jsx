@@ -63,17 +63,25 @@ function Product() {
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-4 max-w-full mx-auto">
-        {filteredArray.map((data) => (
-          <div key={data.id} className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center">
-            <h1 className="text-lg font-semibold mb-2 text-gray-900">{data.title}</h1>
-            <img className="w-full h-40 object-cover rounded-lg mb-4" src={data.image} alt={data.title} />
-            <p className="text-indigo-600 text-sm font-semibold mb-2">{data.category}</p>
-            <span className="text-green-600 font-bold text-lg mb-4">{data.price}$</span>
-            <button className="bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-purple-800 transition duration-300" onClick={()=> dispatch({type:"ADD", payload:data})}>
-              Add to Cart
-            </button>
-          </div>
-        ))}
+      {filteredArray.map((data) => {
+  data.quantity = 1; 
+
+  return (
+    <div key={data.id} className="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center">
+      <h1 className="text-lg font-semibold mb-2 text-gray-900">{data.title}</h1>
+      <img className="w-full h-40 object-cover rounded-lg mb-4" src={data.image} alt={data.title} />
+      <p className="text-indigo-600 text-sm font-semibold mb-2">{data.category}</p>
+      <span className="text-green-600 font-bold text-lg mb-4">{data.price}$</span>
+      <button
+        className="bg-purple-700 text-white px-4 py-2 rounded-lg hover:bg-purple-800 transition duration-300"
+        onClick={() => dispatch({ type: "ADD", payload: data })}
+      >
+        Add to Cart
+      </button>
+    </div>
+  );
+})}
+
       </div>
     </div>
   );

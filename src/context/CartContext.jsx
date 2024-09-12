@@ -14,6 +14,33 @@ const reducer = (state , action)=>{
                 return [...state,action.payload]
             }
            
+      case 'INCREASE':
+        const tempstate1 = state.map((data) => {
+          if (data.id === action.payload.id) {
+            return { ...data, quantity: data.quantity + 1 };
+          } else {
+            return data;
+          }
+        });
+        return tempstate1;
+
+        case 'DECREASE':
+        const tempstate2 = state.map((data) => {
+          if (data.id === action.payload.id) {
+            return { ...data, quantity: data.quantity - 1 };
+          } else {
+            return data;
+          }
+        });
+        return tempstate2;
+
+        case 'REMOVE':
+            const tempstate3 = state.filter((data) => {
+                data.id !== action.payload.id
+            });
+            return tempstate3;
+
+           
     
         default:
              return state;

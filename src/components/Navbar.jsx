@@ -40,7 +40,7 @@ const Navbar = () => {
   return (
     <>
       <ToastContainer />
-      <nav className="flex justify-between items-center px-10 py-5 bg-purple-700 shadow-md">
+      <nav className="flex  justify-between items-center px-10 py-5 bg-purple-700 shadow-md  ">
         <div className="text-3xl font-extrabold text-white">
           <span style={{ fontFamily: "Cursive, sans-serif" }}>
             &lt;MUSA /&gt;
@@ -88,6 +88,12 @@ const Navbar = () => {
               Sign In
             </Link>
           )}
+          <Link
+            to="/cart"
+            className="text-white hover:text-purple-300 transition duration-300"
+          >
+          Cart
+          </Link>
         </div>
       </nav>
     </>
